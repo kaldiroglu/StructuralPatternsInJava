@@ -1,0 +1,53 @@
+%% GoF Flyweight - "Lexi" document editor example (Design Patterns, pp. 195-206)
+%% Simplified font mapping (plain index->Font) replaces the book's BTree (p. 202).
+classDiagram
+    class Glyph {
+        <<abstract>>
+        +draw(Window w, GlyphContext c)
+        +insert(Glyph g)
+        +child(int i) Glyph
+        +childCount() int
+    }
+    class Character {
+        -char charcode
+        +draw(Window w, GlyphContext c)
+    }
+    class Row {
+        -List~Glyph~ children
+        +draw(Window w, GlyphContext c)
+    }
+    class Column {
+        -List~Glyph~ children
+        +draw(Window w, GlyphContext c)
+    }
+    class GlyphContext {
+        -int index
+        -Map~int,Font~ fonts
+        +next(int step)
+        +setFont(Font f, int span)
+        +getFont() Font
+    }
+    class GlyphFactory {
+        -Map~char,Character~ characters
+        +createCharacter(char c) Character
+        +createRow() Row
+        +createColumn() Column
+    }
+    class Font {
+        -String name
+    }
+    class Window {
+        +draw(char c, Font f)
+        +newLine()
+    }
+
+    Glyph <|-- Character : ConcreteFlyweight
+    Glyph <|-- Row : UnsharedConcreteFlyweight
+    Glyph <|-- Column : UnsharedConcreteFlyweight
+    Glyph o-- "0..*" Glyph : children
+    GlyphFactory o-- "0..*" Character : pools (shares)
+    GlyphFactory ..> Row : creates
+    GlyphFactory ..> Column : creates
+    GlyphContext o-- "0..*" Font
+    Character ..> GlyphContext : reads font
+    Character ..> Window : renders on
