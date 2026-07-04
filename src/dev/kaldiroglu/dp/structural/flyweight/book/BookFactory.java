@@ -1,6 +1,7 @@
-package org.javaturk.dp.ch07.flyweight.book;
+package dev.kaldiroglu.dp.structural.flyweight.book;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookFactory implements Factory {
 	private List<Character> as = new ArrayList<>();

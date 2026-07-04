@@ -1,4 +1,4 @@
-package org.javaturk.dp.ch07.flyweight.book;
+package dev.kaldiroglu.dp.structural.flyweight.book;
 
 public class Character {
 	// Intrinsic properties

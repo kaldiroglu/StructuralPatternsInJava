@@ -1,10 +1,9 @@
 
-package org.javaturk.dp.ch07.flyweight.circles;
+package dev.kaldiroglu.dp.structural.flyweight.circles;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 
 public class ButtonListener implements ActionListener{
 

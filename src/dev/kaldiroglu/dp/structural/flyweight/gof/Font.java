@@ -1,4 +1,4 @@
-package dev.kaldiroglu.flyweight;
+package dev.kaldiroglu.dp.structural.flyweight.gof;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ import java.util.Objects;
  * A simple value object describing a font.
  *
  * <p>In Lexi the font is part of the EXTRINSIC state held by a
- * {@link GlyphContext} (GoF, p. 202), never by the {@link Character} flyweight.
+ * {@link GlyphContext} (GoF, p. 202), never by the {@link CharacterGlyph} flyweight.
  * That is why the same shared Character can be rendered in many different
  * fonts.</p>
  */

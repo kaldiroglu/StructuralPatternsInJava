@@ -1,5 +1,5 @@
 
-package org.javaturk.dp.ch07.flyweight.circles;
+package dev.kaldiroglu.dp.structural.flyweight.circles;
 
 /**
  * @author akin

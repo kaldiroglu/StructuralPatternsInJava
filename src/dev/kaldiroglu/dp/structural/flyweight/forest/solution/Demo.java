@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.solution;
+package dev.kaldiroglu.dp.structural.flyweight.forest.solution;
 
 public class Demo {
     public static void main(String[] args) {

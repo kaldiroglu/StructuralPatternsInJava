@@ -1,10 +1,10 @@
-package dev.kaldiroglu.flyweight;
+package dev.kaldiroglu.dp.structural.flyweight.gof;
 
 /**
  * ConcreteFlyweight (GoF, p. 201).
  *
  * <p>GoF names this participant {@code Character}; we call it
- * {@code CharacterGlyph} to avoid clashing with {@link java.lang.Character}.</p>
+ * {@code CharacterGlyph} to avoid clashing with {@link Character}.</p>
  *
  * <p>Stores the only INTRINSIC state a character needs: its character code.
  * Because that state is independent of where the character appears, a single

@@ -1,4 +1,4 @@
-package dev.kaldiroglu.flyweight;
+package dev.kaldiroglu.dp.structural.flyweight.gof;
 
 import java.util.ArrayList;
 import java.util.List;

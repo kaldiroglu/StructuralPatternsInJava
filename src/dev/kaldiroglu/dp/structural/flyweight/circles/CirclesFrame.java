@@ -1,16 +1,10 @@
 
-package org.javaturk.dp.ch07.flyweight.circles;
+package dev.kaldiroglu.dp.structural.flyweight.circles;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class CirclesFrame extends JFrame {
 

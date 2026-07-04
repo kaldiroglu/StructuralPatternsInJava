@@ -1,4 +1,4 @@
-package dev.kaldiroglu.flyweight;
+package dev.kaldiroglu.dp.structural.flyweight.gof;
 
 /**
  * Flyweight (GoF, p. 198; sample code p. 200).
@@ -9,7 +9,7 @@ package dev.kaldiroglu.flyweight;
  *
  * <p>Note that GoF folds the Composite pattern into the same hierarchy: a Glyph
  * also declares child-management operations so that {@link Row}s and
- * {@link Column}s can contain other glyphs. Leaf flyweights ({@link Character})
+ * {@link Column}s can contain other glyphs. Leaf flyweights ({@link CharacterGlyph})
  * simply ignore them.</p>
  */
 public abstract class Glyph {

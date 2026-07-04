@@ -1,9 +1,10 @@
-package dev.kaldiroglu.flyweight;
+package dev.kaldiroglu.dp.structural.flyweight.gof;
 
 /**
+ * Created by Claude Opus 4.8 on June 22nd 2026
  * Client demo (GoF, p. 204).
  *
- * <p>Builds a small two-line document out of shared {@link Character}
+ * <p>Builds a small two-line document out of shared {@link CharacterGlyph}
  * flyweights, assigns fonts per position range via a {@link GlyphContext}
  * (extrinsic state), renders it, and then reports how many character objects
  * were saved by sharing.</p>
@@ -13,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
         GlyphFactory factory = new GlyphFactory();
 
-        String[] lines = {"flyweight", "lightweight"};
+        String[] lines = {"flyweight is a nice pattern", "lightweight is also a nice pattern"};
 
         // Build the document tree: a Column of Rows of (shared) Characters.
         Column document = factory.createColumn();

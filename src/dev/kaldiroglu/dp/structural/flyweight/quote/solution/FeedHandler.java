@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.solution;
+package dev.kaldiroglu.dp.structural.flyweight.quote.solution;
 
 import java.math.BigDecimal;
 import java.time.Instant;

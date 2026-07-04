@@ -1,4 +1,4 @@
-package dev.kaldiroglu.flyweight;
+package dev.kaldiroglu.dp.structural.flyweight.gof;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import java.util.Map;
  * <p>In the book this maps each glyph's position to its font using a compact
  * <em>BTree</em>. Here we use the simpler substitute the authors mention: a
  * plain {@code index -> Font} map. The client keeps this object and passes it
- * into {@link Glyph#draw}, so the shared {@link Character} flyweights never have
+ * into {@link Glyph#draw}, so the shared {@link CharacterGlyph} flyweights never have
  * to store a font themselves.</p>
  */
 public class GlyphContext {

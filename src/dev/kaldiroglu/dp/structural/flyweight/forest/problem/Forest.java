@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.problem;
+package dev.kaldiroglu.dp.structural.flyweight.forest.problem;
 
 import java.util.ArrayList;
 import java.util.List;

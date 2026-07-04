@@ -1,13 +1,10 @@
 
-package org.javaturk.dp.ch07.flyweight.circles;
+package dev.kaldiroglu.dp.structural.flyweight.circles;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.util.ArrayList;
-
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @author akin

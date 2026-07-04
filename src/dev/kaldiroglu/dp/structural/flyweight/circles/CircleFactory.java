@@ -1,8 +1,7 @@
 
-package org.javaturk.dp.ch07.flyweight.circles;
+package dev.kaldiroglu.dp.structural.flyweight.circles;
 
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.*;
 import java.util.Random;
 
 /**

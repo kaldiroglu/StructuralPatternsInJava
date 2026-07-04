@@ -1,18 +1,9 @@
 
-package org.javaturk.dp.ch07.flyweight.circles;
+package dev.kaldiroglu.dp.structural.flyweight.circles;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Stroke;
+import javax.swing.*;
+import java.awt.*;
 
-import javax.swing.JComponent;
-
-/**
- * @author akin
- *
- */
 public class Circle extends JComponent{
 	private static Stroke solidStroke = new BasicStroke(5.0f);
 	private static int numberOfAppearance;

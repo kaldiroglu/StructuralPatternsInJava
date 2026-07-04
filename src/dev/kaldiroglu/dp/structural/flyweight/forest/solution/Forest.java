@@ -1,4 +1,4 @@
-package dev.kaldiroglu.dp.structural.flyweight.solution;
+package dev.kaldiroglu.dp.structural.flyweight.forest.solution;
 
 import java.util.ArrayList;
 import java.util.List;

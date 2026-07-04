@@ -1,4 +1,4 @@
-package dev.kaldiroglu.flyweight;
+package dev.kaldiroglu.dp.structural.flyweight.gof;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * <p>A {@code Row} groups child glyphs laid out left-to-right. Rows are NOT
  * shared: each one owns its list of children, so it carries state that cannot
  * be shared. Crucially, it still implements the {@link Glyph} interface, which
- * is exactly what lets a shared {@link Character} sit inside an unshared Row.</p>
+ * is exactly what lets a shared {@link CharacterGlyph} sit inside an unshared Row.</p>
  */
 public class Row extends Glyph {
 

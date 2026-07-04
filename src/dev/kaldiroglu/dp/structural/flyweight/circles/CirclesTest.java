@@ -1,7 +1,7 @@
 
-package org.javaturk.dp.ch07.flyweight.circles;
+package dev.kaldiroglu.dp.structural.flyweight.circles;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class CirclesTest {
 	
