@@ -44,7 +44,6 @@ TextView <|-- ClassTextShape : extends \nadapter\wrapper \nthrough inheritance
 
 DrawingEditor ..> Shape : uses
 
-TextShape -[hidden]right-> TextView
 DrawingEditor -[hidden]right-> Shape
 
 

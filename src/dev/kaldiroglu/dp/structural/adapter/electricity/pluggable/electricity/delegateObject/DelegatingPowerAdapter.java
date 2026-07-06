@@ -13,13 +13,8 @@ public final class DelegatingPowerAdapter implements TurkishPowerSource {
     }
 
     @Override
-    public void providePowerAt220V() {
-        System.out.println("DelegatingPowerAdapter: Converting from 110V to 220V");
-    }
-
-    @Override
     public void turnOn() {
-        providePowerAt220V();delivery.deliver();
+       delivery.deliver();
     }
 
     @Override

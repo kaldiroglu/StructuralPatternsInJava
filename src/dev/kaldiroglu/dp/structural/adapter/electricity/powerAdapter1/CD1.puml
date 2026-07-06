@@ -1,10 +1,6 @@
-' Model: Claude Opus 4.8 (1M context)
-' Created: 2026-07-03
-' Electricity class adapter — models java/dev/kaldiroglu/adapter/gof/electricity/.
-' Standalone PlantUML source; mirrors the diagram in electricity-class-adapter.md.
 
 @startuml electricity-class-adapter
-title Electricity Class Adapter
+title Electricity Object Adapter
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
@@ -39,24 +35,23 @@ class TurkishHomeAppliance <<Client>> {
 
 ' ===== Relationships =====
 TurkishPowerSource <|.. USTurkishPowerAdapter : implements
-USPowerSource <|-- USTurkishPowerAdapter : extends (class adapter)
-TurkishHomeAppliance o-right-> TurkishPowerSource : drives
+USTurkishPowerAdapter o-right->  USPowerSource : composition
+TurkishHomeAppliance o-right-> TurkishPowerSource
 
 note bottom of USTurkishPowerAdapter
-  Class Adapter
-  Extends the Adaptee, implements the Target.
-  No adaptee field, no delegation:
-  turnOn()/turnOff() call the inherited
+  Object Adapter
+  Reaches the adaptee, takes it as an instance variable.
+  It delegates turnOn()/turnOff() calls to
   pushSwitch() / isLive().
   --
-  Being a subclass of USPowerSource, the adapter
-  can also be used anywhere a USPowerSource is
-  expected, and could override its behaviour.
+  Using USPowerSource, the adapter
+  can also be used anywhere any of USPowerSource's
+  sub-types is expected.
 end note
 
-legend right
+legend
   Target  = TurkishPowerSource (turnOn / turnOff)
   Adaptee = USPowerSource (pushSwitch / isLive)
-  Adapter = USTurkishPowerAdapter (is-a Adaptee and is-a Target)
+  Adapter = USTurkishPowerAdapter
 endlegend
 @enduml
