@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.parameterized;
 
 /**
- * <b>Adaptee</b> #3: a British source with yet another interface ({@code flipToggle}). Having two
+ * <b>Adaptee</b> #2: a British source with yet another interface ({@code flipToggle}). Having two
  * differently-shaped adaptees is what makes the pluggable adapter worth it: one adapter class,
  * many sources.
  */
