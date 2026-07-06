@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.parameterized;
 
 /**
- * <b>Adaptee</b> #1: an American source with its own, incompatible interface ({@code pushSwitch}).
+ * <b>Adaptee</b> #3: an American source with its own, incompatible interface ({@code pushSwitch}).
  */
 public final class USPowerSource {
 

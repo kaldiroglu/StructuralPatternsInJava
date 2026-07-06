@@ -1,7 +1,7 @@
 package dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.parameterized;
 
 /**
- * <b>Adaptee</b> #1: a Kenyan source with its own, incompatible interface ({@code hakunaMatata}).
+ * <b>Adaptee</b> #3: a Kenyan source with its own, incompatible interface ({@code hakunaMatata}).
  */
 public final class KenyaPowerSource {
 
