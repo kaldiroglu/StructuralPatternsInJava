@@ -54,7 +54,7 @@ USPowerDelivery --> USPowerSource
 UKPowerDelivery --> UKPowerSource
 
 note right of DelegatingPowerAdapter
-  On adapter class; swap the delegate
+  The adapter class; swap the delegate
   to re-target. No subclassing.
 end note
 @enduml

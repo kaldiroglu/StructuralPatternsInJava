@@ -1,9 +1,6 @@
 package dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.delegateObject;
 
 
-import dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.parameterized.KenyaPowerSource;
-import dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.parameterized.PluggablePowerAdapter;
-
 public class Main {
     public static void main(String[] args) {
         HomeAppliance turkishHomeAppliance = new TurkishHomeAppliance("Iron");
