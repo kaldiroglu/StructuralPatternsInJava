@@ -6,6 +6,6 @@ package dev.kaldiroglu.dp.structural.adapter.electricity.pluggable.electricity.p
 public final class KenyaPowerSource {
 
     public void hakunaMatata() {
-        System.out.println("Kenyan source: switch pushed (110V / 60Hz)");
+        System.out.println("Kenyan source: switch is pushed in a hakuna matata (110V / 60Hz)");
     }
 }
