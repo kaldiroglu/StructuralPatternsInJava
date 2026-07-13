@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+top to bottom direction
+
+class Client {
++ start()
+}
+
+class CPU {
++ initialize()
+}
+
+class HD {
++ initialize()
+}
+
+class RAM {
++ initialize()
++ loadOS()
++ loadOSKernelImage()
++ loadDrivers()
++ startServices()
+}
+
+class Display {
++ initialize()
+}
+
+class BIOS {
++ initialize()
+}
+
+class ROM {
++ getOSKernelImage()
+}
+
+Client .down.> CPU
+Client .down.> HD
+Client .down.> RAM
+Client .down.> Display
+Client .down.> ROM
+Client .down.> BIOS
+
+
+@enduml
