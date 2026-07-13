@@ -1,0 +1,53 @@
+@startuml Decorator
+skinparam classAttributeIconSize 0
+title Decorator — Simpler example (Java)
+
+interface Coffee {
+  + description() : String
+  + cost() : double
+}
+note right of Coffee : Component
+
+class SimpleCoffee {
+  + description() : String
+  + cost() : double
+}
+note bottom of SimpleCoffee : ConcreteComponent
+
+abstract class CoffeeDecorator {
+  # wrapped : Coffee
+  # CoffeeDecorator(wrapped : Coffee)
+  + description() : String
+  + cost() : double
+}
+note right of CoffeeDecorator : Decorator
+
+class MilkDecorator {
+  + MilkDecorator(wrapped : Coffee)
+  + description() : String
+  + cost() : double
+}
+note bottom of MilkDecorator : ConcreteDecorator
+
+class SugarDecorator {
+  + SugarDecorator(wrapped : Coffee)
+  + description() : String
+  + cost() : double
+}
+note bottom of SugarDecorator : ConcreteDecorator
+
+class VanillaDecorator {
+  + VanillaDecorator(wrapped : Coffee)
+  + description() : String
+  + cost() : double
+}
+note bottom of VanillaDecorator : ConcreteDecorator
+
+Coffee <|.. SimpleCoffee
+Coffee <|.. CoffeeDecorator
+CoffeeDecorator <|-- MilkDecorator
+CoffeeDecorator <|-- SugarDecorator
+CoffeeDecorator <|-- VanillaDecorator
+CoffeeDecorator o--> Coffee : wrapped
+
+@enduml

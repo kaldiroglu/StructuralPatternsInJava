@@ -1,0 +1,47 @@
+@startuml Composite
+skinparam classAttributeIconSize 0
+title Composite — Business example (Java)
+
+interface OrgUnit {
+  + getName() : String
+  + getHeadcount() : int
+  + getTotalSalaryCost() : BigDecimal
+  + findEmployee(id : String) : Optional<Employee>
+}
+note right of OrgUnit : Component
+
+class Employee {
+  - id : String
+  - name : String
+  - annualSalary : BigDecimal
+  + getId() : String
+  + getName() : String
+  + getHeadcount() : int
+  + getTotalSalaryCost() : BigDecimal
+  + findEmployee(employeeId : String) : Optional<Employee>
+}
+note bottom of Employee : Leaf
+
+class Department {
+  - name : String
+  - children : List<OrgUnit>
+  + add(child : OrgUnit) : Department
+  + getName() : String
+  + getHeadcount() : int
+  + getTotalSalaryCost() : BigDecimal
+  + findEmployee(id : String) : Optional<Employee>
+  - walk() : List<OrgUnit>
+}
+note bottom of Department : Composite
+
+class Demo {
+  + {static} main(args : String[]) : void
+}
+note top of Demo : Client
+
+OrgUnit <|.. Employee
+OrgUnit <|.. Department
+Department o--> "0..*" OrgUnit : children
+Demo ..> OrgUnit
+
+@enduml

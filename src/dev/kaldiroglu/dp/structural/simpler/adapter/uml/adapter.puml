@@ -1,0 +1,47 @@
+@startuml Adapter
+skinparam classAttributeIconSize 0
+title Adapter — Simpler example (Java)
+
+interface MediaPlayer {
+  + play(type : String, fileName : String) : void
+}
+note right of MediaPlayer : Target
+
+class AudioPlayer {
+  + play(type : String, fileName : String) : void
+}
+note right of AudioPlayer : Client / Target impl\n(mp3 native; delegates vlc/mp4 to adapter)
+
+class MediaAdapter {
+  - advancedPlayer : AdvancedMediaPlayer
+  + MediaAdapter(type : String)
+  + play(type : String, fileName : String) : void
+}
+note right of MediaAdapter : Adapter
+
+interface AdvancedMediaPlayer {
+  + playVlc(fileName : String) : void
+  + playMp4(fileName : String) : void
+}
+note right of AdvancedMediaPlayer : Adaptee interface
+
+class VlcPlayer {
+  + playVlc(fileName : String) : void
+  + playMp4(fileName : String) : void
+}
+note bottom of VlcPlayer : Adaptee
+
+class Mp4Player {
+  + playVlc(fileName : String) : void
+  + playMp4(fileName : String) : void
+}
+note bottom of Mp4Player : Adaptee
+
+MediaPlayer <|.. AudioPlayer
+MediaPlayer <|.. MediaAdapter
+AdvancedMediaPlayer <|.. VlcPlayer
+AdvancedMediaPlayer <|.. Mp4Player
+MediaAdapter o--> AdvancedMediaPlayer : wraps
+AudioPlayer ..> MediaAdapter : creates for vlc/mp4
+
+@enduml

@@ -1,0 +1,36 @@
+@startuml Proxy
+skinparam classAttributeIconSize 0
+title Proxy — Simpler example (Java)
+
+interface Image {
+  + display() : void
+}
+note right of Image : Subject
+
+class ImageProxy {
+  - path : String
+  - real : RealImage
+  + ImageProxy(path : String)
+  + display() : void
+}
+note right of ImageProxy : Proxy\n(lazily creates RealImage)
+
+class RealImage {
+  - path : String
+  + RealImage(path : String)
+  - loadFromDisk() : void
+  + display() : void
+}
+note bottom of RealImage : RealSubject
+
+class Demo {
+  + main(args : String[]) : void
+}
+note top of Demo : Client
+
+Image <|.. ImageProxy
+Image <|.. RealImage
+ImageProxy o--> RealImage : real (lazy)
+Demo ..> Image : uses
+
+@enduml

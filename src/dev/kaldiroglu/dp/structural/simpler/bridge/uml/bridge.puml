@@ -1,0 +1,45 @@
+@startuml Bridge
+skinparam classAttributeIconSize 0
+title Bridge — Simpler example (Java)
+
+abstract class Shape {
+  # color : Color
+  # Shape(color : Color)
+  + {abstract} draw() : void
+}
+note right of Shape : Abstraction
+
+class Circle {
+  + Circle(color : Color)
+  + draw() : void
+}
+note bottom of Circle : RefinedAbstraction
+
+class Square {
+  + Square(color : Color)
+  + draw() : void
+}
+note bottom of Square : RefinedAbstraction
+
+interface Color {
+  + applyColor() : String
+}
+note right of Color : Implementor
+
+class RedColor {
+  + applyColor() : String
+}
+note bottom of RedColor : ConcreteImplementor
+
+class BlueColor {
+  + applyColor() : String
+}
+note bottom of BlueColor : ConcreteImplementor
+
+Shape <|-- Circle
+Shape <|-- Square
+Color <|.. RedColor
+Color <|.. BlueColor
+Shape o--> Color : color\n(bridge)
+
+@enduml

@@ -1,0 +1,68 @@
+@startuml Proxy
+skinparam classAttributeIconSize 0
+title Proxy — Business example (Java)
+
+interface CustomerProfileService {
+  + getProfile(caller : Caller, customerId : String) : CustomerProfile
+}
+note right of CustomerProfileService : Subject
+
+class RemoteCustomerProfileService {
+  - backendCalls : AtomicInteger
+  + getProfile(caller : Caller, customerId : String) : CustomerProfile
+  + backendCalls() : int
+}
+note bottom of RemoteCustomerProfileService : RealSubject
+
+class AuthorizationProxy {
+  - delegate : CustomerProfileService
+  - policy : AccessPolicy
+  + getProfile(caller : Caller, customerId : String) : CustomerProfile
+}
+note right of AuthorizationProxy : Proxy (protection)
+
+class CachingProxy {
+  - delegate : CustomerProfileService
+  - ttl : Duration
+  - cache : ConcurrentHashMap<String, Entry>
+  + getProfile(caller : Caller, customerId : String) : CustomerProfile
+}
+note right of CachingProxy : Proxy (caching / virtual)
+
+interface AccessPolicy {
+  + canRead(caller : Caller, customerId : String) : boolean
+}
+
+class RegionalAccessPolicy {
+  + canRead(caller : Caller, customerId : String) : boolean
+}
+
+record Caller {
+  + userId : String
+  + role : String
+  + region : String
+}
+
+record CustomerProfile {
+  + customerId : String
+  + name : String
+  + region : String
+}
+
+class Demo {
+  + {static} main(args : String[]) : void
+}
+note top of Demo : Client
+
+CustomerProfileService <|.. RemoteCustomerProfileService
+CustomerProfileService <|.. AuthorizationProxy
+CustomerProfileService <|.. CachingProxy
+AuthorizationProxy o--> CustomerProfileService : delegate
+CachingProxy o--> CustomerProfileService : delegate
+AuthorizationProxy o--> AccessPolicy
+AccessPolicy <|.. RegionalAccessPolicy
+CustomerProfileService ..> CustomerProfile
+CustomerProfileService ..> Caller
+Demo ..> CustomerProfileService
+
+@enduml

@@ -1,0 +1,72 @@
+@startuml Decorator
+skinparam classAttributeIconSize 0
+title Decorator — Business example (Java)
+
+interface HttpClient {
+  + send(request : HttpRequest) : HttpResponse
+}
+note right of HttpClient : Component
+
+class RealHttpClient {
+  - callCount : AtomicInteger
+  + send(req : HttpRequest) : HttpResponse
+}
+note bottom of RealHttpClient : ConcreteComponent
+
+abstract class HttpClientDecorator {
+  # delegate : HttpClient
+  + send(request : HttpRequest) : HttpResponse
+}
+note right of HttpClientDecorator : Decorator
+
+class LoggingDecorator {
+  + send(request : HttpRequest) : HttpResponse
+}
+note bottom of LoggingDecorator : ConcreteDecorator
+
+class AuthDecorator {
+  - tokenSupplier : Supplier<String>
+  + send(request : HttpRequest) : HttpResponse
+}
+note bottom of AuthDecorator : ConcreteDecorator
+
+class RetryDecorator {
+  - maxAttempts : int
+  + send(request : HttpRequest) : HttpResponse
+}
+note bottom of RetryDecorator : ConcreteDecorator
+
+class CachingDecorator {
+  - cache : Map<String, Entry>
+  - ttl : Duration
+  + send(request : HttpRequest) : HttpResponse
+  - {static} cacheKey(r : HttpRequest) : String
+}
+note bottom of CachingDecorator : ConcreteDecorator
+
+class HttpRequest {
+  - method : String
+  - url : String
+  - headers : Map<String, String>
+  + method() : String
+  + url() : String
+  + headers() : Map<String, String>
+  + withHeader(name : String, value : String) : HttpRequest
+}
+
+record HttpResponse {
+  + status : int
+  + body : String
+}
+
+HttpClient <|.. RealHttpClient
+HttpClient <|.. HttpClientDecorator
+HttpClientDecorator <|-- LoggingDecorator
+HttpClientDecorator <|-- AuthDecorator
+HttpClientDecorator <|-- RetryDecorator
+HttpClientDecorator <|-- CachingDecorator
+HttpClientDecorator o--> HttpClient : delegate
+HttpClient ..> HttpRequest
+HttpClient ..> HttpResponse
+
+@enduml

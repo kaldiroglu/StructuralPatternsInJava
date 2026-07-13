@@ -1,0 +1,41 @@
+@startuml Composite
+skinparam classAttributeIconSize 0
+title Composite — Simpler example (Java)
+
+interface FileSystemNode {
+  + getName() : String
+  + getSize() : long
+}
+note right of FileSystemNode : Component
+
+class File {
+  - name : String
+  - size : long
+  + File(name : String, size : long)
+  + getName() : String
+  + getSize() : long
+}
+note bottom of File : Leaf
+
+class Directory {
+  - name : String
+  - children : List<FileSystemNode>
+  + Directory(name : String)
+  + add(child : FileSystemNode) : Directory
+  + getName() : String
+  + getSize() : long
+}
+note bottom of Directory : Composite
+
+class Demo {
+  + main(args : String[]) : void
+  - printSize(node : FileSystemNode) : void
+}
+note top of Demo : Client
+
+FileSystemNode <|.. File
+FileSystemNode <|.. Directory
+Directory o--> "0..*" FileSystemNode : children
+Demo ..> FileSystemNode : uses uniformly
+
+@enduml

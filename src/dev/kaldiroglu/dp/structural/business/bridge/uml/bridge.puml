@@ -1,0 +1,75 @@
+@startuml Bridge
+skinparam classAttributeIconSize 0
+title Bridge — Business example (Java)
+
+abstract class Notification {
+  # channel : DeliveryChannel
+  # {abstract} render(channel : DeliveryChannel) : RenderedMessage
+  + send(recipient : Recipient) : void
+}
+note right of Notification : Abstraction
+
+class OrderConfirmation {
+  - orderId : String
+  - lineItems : List<String>
+  - total : double
+  # render(channel : DeliveryChannel) : RenderedMessage
+}
+note bottom of OrderConfirmation : RefinedAbstraction
+
+class PasswordReset {
+  - resetLink : String
+  # render(channel : DeliveryChannel) : RenderedMessage
+}
+note bottom of PasswordReset : RefinedAbstraction
+
+interface DeliveryChannel {
+  + supportsRichContent() : boolean
+  + maxBodyLength() : int
+  + deliver(recipient : Recipient, message : RenderedMessage) : void
+}
+note right of DeliveryChannel : Implementor
+
+class EmailChannel {
+  + supportsRichContent() : boolean
+  + maxBodyLength() : int
+  + deliver(r : Recipient, m : RenderedMessage) : void
+}
+note bottom of EmailChannel : ConcreteImplementor
+
+class SmsChannel {
+  + supportsRichContent() : boolean
+  + maxBodyLength() : int
+  + deliver(r : Recipient, m : RenderedMessage) : void
+}
+note bottom of SmsChannel : ConcreteImplementor
+
+class SlackChannel {
+  + supportsRichContent() : boolean
+  + maxBodyLength() : int
+  + deliver(r : Recipient, m : RenderedMessage) : void
+}
+note bottom of SlackChannel : ConcreteImplementor
+
+record Recipient {
+  + email : String
+  + phone : String
+  + slackChannel : String
+  + pushDeviceToken : String
+}
+
+record RenderedMessage {
+  + subject : String
+  + body : String
+}
+
+Notification <|-- OrderConfirmation
+Notification <|-- PasswordReset
+Notification o--> DeliveryChannel : bridge
+DeliveryChannel <|.. EmailChannel
+DeliveryChannel <|.. SmsChannel
+DeliveryChannel <|.. SlackChannel
+Notification ..> Recipient
+Notification ..> RenderedMessage
+
+@enduml

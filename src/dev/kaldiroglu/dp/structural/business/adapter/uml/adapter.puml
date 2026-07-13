@@ -1,0 +1,74 @@
+@startuml Adapter
+skinparam classAttributeIconSize 0
+title Adapter — Business example (Java)
+
+interface PaymentProcessor {
+  + charge(request : PaymentRequest) : PaymentResult
+}
+note right of PaymentProcessor : Target
+
+class AcmePayAdapter {
+  - client : AcmeGatewayClient
+  + charge(req : PaymentRequest) : PaymentResult
+  - {static} translate(code : int) : PaymentResult.Reason
+}
+note right of AcmePayAdapter : Adapter
+
+class AcmeGatewayClient {
+  + authorize(requestUid : String, customerRef : String, amountCents : long, currency : String) : String
+  + capture(authToken : String, amountCents : long) : String
+  + release(authToken : String) : void
+}
+note right of AcmeGatewayClient : Adaptee\n(legacy two-step SDK)
+
+class CheckoutService {
+  - processor : PaymentProcessor
+  + checkout(request : PaymentRequest) : PaymentResult
+}
+note bottom of CheckoutService : Client
+
+class AcmeGatewayException {
+  - code : int
+  + getCode() : int
+}
+
+record PaymentRequest {
+  + idempotencyKey : UUID
+  + customerRef : String
+  + amount : Money
+}
+
+record Money {
+  + amount : BigDecimal
+  + currency : String
+  + toMinorUnits() : long
+}
+
+interface PaymentResult <<sealed>> {
+}
+class "PaymentResult.Success" as Success {
+  + authorizationId : String
+}
+class "PaymentResult.Failure" as Failure {
+  + reason : Reason
+  + detail : String
+}
+enum "PaymentResult.Reason" as Reason {
+  CUSTOMER_BLOCKED
+  INVALID_AMOUNT
+  CAPTURE_FAILED
+  GATEWAY_ERROR
+}
+
+AcmePayAdapter ..|> PaymentProcessor
+AcmePayAdapter o--> AcmeGatewayClient
+CheckoutService o--> PaymentProcessor
+AcmeGatewayClient ..> AcmeGatewayException : throws
+CheckoutService ..> PaymentRequest
+CheckoutService ..> PaymentResult
+PaymentRequest *-- Money
+PaymentResult <|.. Success
+PaymentResult <|.. Failure
+Failure --> Reason
+
+@enduml

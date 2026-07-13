@@ -1,0 +1,64 @@
+@startuml Facade
+skinparam classAttributeIconSize 0
+title Facade — Simpler example (Java)
+
+class HomeTheaterFacade {
+  - amp : Amplifier
+  - dvd : DvdPlayer
+  - projector : Projector
+  - screen : Screen
+  - lights : Lights
+  + HomeTheaterFacade(amp : Amplifier, dvd : DvdPlayer, projector : Projector, screen : Screen, lights : Lights)
+  + watchMovie(movie : String) : void
+  + endMovie() : void
+}
+note top of HomeTheaterFacade : Facade
+
+class Amplifier {
+  + on() : void
+  + off() : void
+  + setSurroundSound() : void
+  + setVolume(level : int) : void
+}
+note bottom of Amplifier : Subsystem
+
+class DvdPlayer {
+  + on() : void
+  + off() : void
+  + play(movie : String) : void
+  + stop() : void
+}
+note bottom of DvdPlayer : Subsystem
+
+class Projector {
+  + on() : void
+  + off() : void
+  + wideScreenMode() : void
+}
+note bottom of Projector : Subsystem
+
+class Screen {
+  + down() : void
+  + up() : void
+}
+note bottom of Screen : Subsystem
+
+class Lights {
+  + dim(level : int) : void
+  + on() : void
+}
+note bottom of Lights : Subsystem
+
+class Demo {
+  + main(args : String[]) : void
+}
+note top of Demo : Client
+
+HomeTheaterFacade o--> Amplifier
+HomeTheaterFacade o--> DvdPlayer
+HomeTheaterFacade o--> Projector
+HomeTheaterFacade o--> Screen
+HomeTheaterFacade o--> Lights
+Demo ..> HomeTheaterFacade : uses
+
+@enduml
