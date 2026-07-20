@@ -1,0 +1,76 @@
+@startuml gof_before
+skinparam backgroundColor #FEFEFE
+skinparam packageStyle rectangle
+skinparam nodesep 60
+skinparam ranksep 55
+skinparam linetype ortho
+skinparam class {
+    BackgroundColor #F9F9F9
+    BorderColor #555555
+}
+
+title GoF Compiler Example \n Before Facade
+
+package "Client" as ClientPkg {
+    class Client {
+        - scanner: Scanner
+        - parser: Parser
+        - nodeBuilder: ProgramNodeBuilder
+        - codeGenerator: CodeGenerator
+        --
+        + compile(String): String
+    }
+
+    note right of Client
+        Every client duplicates the
+        same 4-dependency wiring and
+        pipeline orchestration.
+    end note
+}
+
+package "Compiler Subsystem" as Subs {
+    class Scanner {
+        + tokenize(String): List~Token~
+    }
+    class Token {
+        KEYWORD, IDENTIFIER, NUMBER, OPERATOR, EOF
+    }
+    class Parser {
+        + parse(String, ProgramNodeBuilder)
+    }
+    class ProgramNode {
+        + traverse(CodeGenerator)
+    }
+    class ProgramNodeBuilder {
+        + newVariable(name, value): ProgramNode
+        + getRootNode(): ProgramNode
+    }
+    abstract class CodeGenerator {
+        - output: BytecodeStream
+        --
+        + visit(ProgramNode)
+        + getBytecode(): String
+    }
+    class RISCCodeGenerator {
+        + visit(ProgramNode)
+    }
+    class BytecodeStream {
+        - buffer: StringBuilder
+        --
+        + emit(String)
+    }
+
+    Scanner ..> Token : creates
+    Parser -left-> Scanner : uses
+    Parser ..> ProgramNodeBuilder : fills
+    ProgramNodeBuilder ..> ProgramNode : creates
+    RISCCodeGenerator --|> CodeGenerator
+    CodeGenerator *-down-> BytecodeStream : "owns"
+}
+
+Client -down-> Scanner
+Client -down-> Parser
+Client -down-> ProgramNodeBuilder
+Client -down-> CodeGenerator
+
+@enduml

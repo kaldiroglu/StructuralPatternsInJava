@@ -1,0 +1,87 @@
+@startuml gof_after
+skinparam backgroundColor #FEFEFE
+skinparam packageStyle rectangle
+skinparam nodesep 25
+skinparam ranksep 30
+skinparam linetype ortho
+skinparam stereotypeCBackgroundColor #E8F5E9
+skinparam class {
+    BackgroundColor #F9F9F9
+    BorderColor #555555
+}
+
+title GoF Compiler Example \n After Facade
+
+package "Client (1 dep)" as ClientPkg {
+    class Client {
+        - compiler: Compiler
+        --
+        + build(String)
+    }
+
+    note right of Client
+        <b>One dependency. One call:</b>
+        compiler.compile(source)
+    end note
+}
+
+package "Facade" #E8F5E9 {
+    class Compiler <<Facade>> {
+        + compile(String): String
+    }
+
+    note right of Compiler
+        <b>Hides the entire pipeline:</b>
+        Scanner → Parser → NodeBuilder
+        → CodeGenerator (abstract class)
+    end note
+}
+
+package "Compiler Subsystem" as Subs {
+    class Scanner {
+        + tokenize(String): List~Token~
+    }
+    class Token {
+        KEYWORD, IDENTIFIER, NUMBER, OPERATOR, EOF
+    }
+    class Parser {
+        + parse(String, ProgramNodeBuilder)
+    }
+    class ProgramNode {
+        + traverse(CodeGenerator)
+    }
+    class ProgramNodeBuilder {
+        + newVariable(name, value): ProgramNode
+        + getRootNode(): ProgramNode
+    }
+    abstract class CodeGenerator {
+        - output: BytecodeStream
+        --
+        + visit(ProgramNode)
+        + getBytecode(): String
+    }
+    class RISCCodeGenerator {
+        + visit(ProgramNode)
+    }
+    class BytecodeStream {
+        - buffer: StringBuilder
+        --
+        + emit(String)
+    }
+
+    Scanner ..> Token : creates
+    Parser -left-> Scanner : uses
+    Parser ..> ProgramNodeBuilder : fills
+    ProgramNodeBuilder ..> ProgramNode : creates
+    RISCCodeGenerator --|> CodeGenerator
+    CodeGenerator *-down-> BytecodeStream : "owns"
+}
+
+Client -down-> Compiler
+
+Compiler -down-> Scanner : creates
+Compiler -down-> Parser
+Compiler -down-> ProgramNodeBuilder
+Compiler -down-> CodeGenerator
+
+@enduml
