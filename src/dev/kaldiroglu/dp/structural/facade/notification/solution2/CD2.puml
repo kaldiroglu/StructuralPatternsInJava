@@ -12,39 +12,6 @@ skinparam class {
 
 title **After v2 — Client-Specific Channel Selection via EnumSet**
 
-package "Business Layer (n classes × 1 dep each)" as Biz {
-    class OrderService {
-        - notifier: NotificationFacade
-        --
-        + confirmOrder(user, orderId)
-    }
-    class AlertService {
-        - notifier: NotificationFacade
-        --
-        + fireAlert(user, message)
-    }
-    class PasswordResetService {
-        - notifier: NotificationFacade
-        --
-        + sendResetLink(user, token)
-    }
-
-    note right of OrderService
-        <b>Channels: EMAIL, SMS</b>
-        EnumSet.of(Channel.EMAIL, Channel.SMS)
-    end note
-
-    note right of AlertService
-        <b>Channels: SLACK, PUSH</b>
-        EnumSet.of(Channel.SLACK, Channel.PUSH)
-    end note
-
-    note right of PasswordResetService
-        <b>Channels: EMAIL</b>
-        EnumSet.of(Channel.EMAIL)
-    end note
-}
-
 package "Facade Layer" #E8F5E9 {
     enum Channel <<Enum>> {
         EMAIL
@@ -61,7 +28,7 @@ package "Facade Layer" #E8F5E9 {
         - log: Logger
         --
         + notify(user, title, body): NotificationResult
-        + notify(user, Set\\<Channel\\>, title, body): NotificationResult
+        + notify(user, Set<Channel>, title, body): NotificationResult
     }
 
     class NotificationConfig <<Config>> {
@@ -86,24 +53,6 @@ package "Facade Layer" #E8F5E9 {
     end note
 }
 
-package "Notification Subsystems (unchanged)" as Subs {
-    class EmailService {
-        + send(to, subject, body)
-    }
-    class SMSService {
-        + send(phone, body)
-    }
-    class SlackService {
-        + send(channel, body)
-    }
-    class PushNotificationService {
-        + send(token, title, body)
-    }
-    class NotificationLogger {
-        + record(userId, channel, success)
-    }
-}
-
 OrderService -down-> NotificationFacade : "notify(user, {EMAIL,SMS}, ...)"
 AlertService -down-> NotificationFacade : "notify(user, {SLACK,PUSH}, ...)"
 PasswordResetService -down-> NotificationFacade : "notify(user, {EMAIL}, ...)"
@@ -111,11 +60,5 @@ PasswordResetService -down-> NotificationFacade : "notify(user, {EMAIL}, ...)"
 NotificationFacade ..> Channel : "uses"
 NotificationFacade ..> NotificationConfig : "wired once"
 NotificationFacade ..> NotificationResult : "returns"
-
-NotificationFacade -down-> EmailService
-NotificationFacade -down-> SMSService
-NotificationFacade -down-> SlackService
-NotificationFacade -down-> PushNotificationService
-NotificationFacade -down-> NotificationLogger
 
 @enduml
