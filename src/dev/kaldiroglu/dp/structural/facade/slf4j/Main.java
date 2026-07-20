@@ -29,7 +29,7 @@ public final class Main {
         // JDK's java.util.logging, then obtain a new logger.
         System.out.println("\n== Rebinding the facade to java.util.logging ==");
         LoggerFactory.useEngine(new JulLoggingEngine());
-        Logger jul = LoggerFactory.getLogger(Demo.class);
+        Logger jul = LoggerFactory.getLogger(Main.class);
         jul.info("Now routed through java.util.logging - the client never changed");
     }
 
