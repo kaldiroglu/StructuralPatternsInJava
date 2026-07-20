@@ -5,9 +5,9 @@ package dev.kaldiroglu.dp.structural.facade.slf4j;
  * only -- notice it never imports {@link ConsoleLoggingEngine},
  * {@link JulLoggingEngine}, {@link LogEvent}, or any other subsystem class.
  */
-public final class Demo {
+public final class Main {
 
-    private static final Logger log = LoggerFactory.getLogger(Demo.class);
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         // Uses the default backend (console at INFO). The application code below is

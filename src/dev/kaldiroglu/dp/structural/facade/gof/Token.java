@@ -1,13 +1,23 @@
 package dev.kaldiroglu.dp.structural.facade.gof;
 
-/** Subsystem: token type produced by the Scanner. */
-public class Token {
-    public enum Type { KEYWORD, IDENTIFIER, NUMBER, OPERATOR, EOF }
-    public final Type type;
-    public final String value;
+/**
+ * Subsystem class (GoF, p. 185): a lexical token produced by the {@link Scanner}.
+ *
+ * <p>Part of the compiler subsystem that the {@link Compiler} facade hides from
+ * ordinary clients.</p>
+ */
+public record Token(Kind kind, String text) {
 
-    public Token(Type type, String value) {
-        this.type = type; this.value = value;
+    public enum Kind {
+        IDENT, INT, ASSIGN, PLUS, MINUS, RETURN, NEWLINE, EOF
     }
-    @Override public String toString() { return type + "('" + value + "')"; }
+
+    public int asInt() {
+        return Integer.parseInt(text);
+    }
+
+    @Override
+    public String toString() {
+        return kind + (text.isEmpty() ? "" : "('" + text + "')");
+    }
 }

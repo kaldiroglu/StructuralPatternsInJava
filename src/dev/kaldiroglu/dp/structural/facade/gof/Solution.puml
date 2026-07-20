@@ -1,10 +1,12 @@
-@startuml gof_after
+@startuml Facade-Compiler
+skinparam classAttributeIconSize 0
 skinparam backgroundColor #FEFEFE
 skinparam packageStyle rectangle
 skinparam nodesep 25
 skinparam ranksep 30
 skinparam linetype ortho
 skinparam stereotypeCBackgroundColor #E8F5E9
+
 skinparam class {
     BackgroundColor #F9F9F9
     BorderColor #555555
@@ -12,76 +14,87 @@ skinparam class {
 
 title GoF Compiler Example \n After Facade
 
-package "Client (1 dep)" as ClientPkg {
-    class Client {
-        - compiler: Compiler
-        --
-        + build(String)
-    }
+class Client <<client>> {
+  + main(args)
+}
+note top of Client : uses only Compiler
 
-    note right of Client
-        <b>One dependency. One call:</b>
-        compiler.compile(source)
-    end note
+class Compiler <<facade>> {
+  + compile(source) : BytecodeStream
+  + compile(source, gen : CodeGenerator)
+}
+note right of Compiler : Facade\nwires Scanner -> Parser ->\nProgramNodeBuilder -> CodeGenerator
+
+package "compiler subsystem" {
+
+  class Scanner {
+    + next() : Token
+    + peek() : Token
+  }
+  class Token <<record>> {
+    + kind : Kind
+    + text : String
+  }
+  class Parser {
+    + parse(s : Scanner, b : ProgramNodeBuilder)
+  }
+  class ProgramNodeBuilder {
+    + newConstant(v) : ProgramNode
+    + newVariable(n) : ProgramNode
+    + newBinaryOperator(op,l,r) : ProgramNode
+    + newAssignment(v,e) : ProgramNode
+    + newReturn(e) : ProgramNode
+    + getRootNode() : ProgramNode
+  }
+
+  abstract class ProgramNode {
+    + {abstract} traverse(g : CodeGenerator)
+  }
+  class BlockNode
+  class ConstantNode
+  class VariableRefNode
+  class BinaryOpNode
+  class AssignmentNode
+  class ReturnNode
+
+  abstract class CodeGenerator {
+    # output : BytecodeStream
+    + {abstract} emitPushConstant(v)
+    + {abstract} emitLoad(var)
+    + {abstract} emitStore(var)
+    + {abstract} emitAdd()
+    + {abstract} emitSubtract()
+    + {abstract} emitReturn()
+  }
+  class StackMachineCodeGenerator
+  class RiscCodeGenerator
+
+  class BytecodeStream {
+    + put(instruction)
+    + instructions() : List
+  }
+
+  Scanner ..> Token
+  Parser ..> Scanner
+  Parser ..> ProgramNodeBuilder
+  ProgramNodeBuilder ..> ProgramNode
+  ProgramNode <|-- BlockNode
+  ProgramNode <|-- ConstantNode
+  ProgramNode <|-- VariableRefNode
+  ProgramNode <|-- BinaryOpNode
+  ProgramNode <|-- AssignmentNode
+  ProgramNode <|-- ReturnNode
+  CodeGenerator <|-- StackMachineCodeGenerator
+  CodeGenerator <|-- RiscCodeGenerator
+  CodeGenerator o--> BytecodeStream
+  ProgramNode ..> CodeGenerator : traverse
 }
 
-package "Facade" #E8F5E9 {
-    class Compiler <<Facade>> {
-        + compile(String): String
-    }
-
-    note right of Compiler
-        <b>Hides the entire pipeline:</b>
-        Scanner → Parser → NodeBuilder
-        → CodeGenerator (abstract class)
-    end note
-}
-
-package "Compiler Subsystem" as Subs {
-    class Scanner {
-        + tokenize(String): List~Token~
-    }
-    class Token {
-        KEYWORD, IDENTIFIER, NUMBER, OPERATOR, EOF
-    }
-    class Parser {
-        + parse(String, ProgramNodeBuilder)
-    }
-    class ProgramNode {
-        + traverse(CodeGenerator)
-    }
-    class ProgramNodeBuilder {
-        + newVariable(name, value): ProgramNode
-        + getRootNode(): ProgramNode
-    }
-    abstract class CodeGenerator {
-        - output: BytecodeStream
-        --
-        + visit(ProgramNode)
-        + getBytecode(): String
-    }
-    class RISCCodeGenerator {
-        + visit(ProgramNode)
-    }
-    class BytecodeStream {
-        - buffer: StringBuilder
-        --
-        + emit(String)
-    }
-
-    Scanner ..> Token : creates
-    Parser -left-> Scanner : uses
-    Parser ..> ProgramNodeBuilder : fills
-    ProgramNodeBuilder ..> ProgramNode : creates
-    RISCCodeGenerator --|> CodeGenerator
-    CodeGenerator *-down-> BytecodeStream : "owns"
-}
-
-Client -down-> Compiler
-
-Compiler -down-> Scanner : creates
-Compiler -down-> Parser
-Compiler -down-> ProgramNodeBuilder
-Compiler -down-> CodeGenerator
+Client --> Compiler
+Compiler ..> Scanner
+Compiler ..> Parser
+Compiler ..> ProgramNodeBuilder
+Compiler ..> CodeGenerator
+Compiler ..> BytecodeStream
 
 @enduml
