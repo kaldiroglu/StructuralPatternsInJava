@@ -53,9 +53,6 @@ package "Facade Layer" #E8F5E9 {
     end note
 }
 
-OrderService -down-> NotificationFacade : "notify(user, {EMAIL,SMS}, ...)"
-AlertService -down-> NotificationFacade : "notify(user, {SLACK,PUSH}, ...)"
-PasswordResetService -down-> NotificationFacade : "notify(user, {EMAIL}, ...)"
 
 NotificationFacade ..> Channel : "uses"
 NotificationFacade ..> NotificationConfig : "wired once"
